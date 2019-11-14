@@ -6,14 +6,14 @@ import urllib
 import urllib2
 from BeautifulSoup import BeautifulSoup
 
-question_name ="jianghp92"
-url ="http://www.baidu.com/s?wd="+ urllib.quote(question_name.decode(sys.stdin.encoding).encode('gbk'))
+question_word ="jianghp92"
+url ="http://www.baidu.com/s?wd="+ urllib.quote(question_word.decode(sys.stdin.encoding).encode('gbk'))
 htmlpage = urllib2.urlopen(url).read()
 soup = BeautifulSoup(htmlpage)
 print len(soup.findAll("table", {"class":"result"}))
 for result_table in soup.findAll("table", {"class":"result"}):
  a_click = result_table.find("a")
- print"----标题----n"+ a_click.renderContents()#标题
- print"----链接----n"+ str(a_click.get("href"))#链接
- print"----描述----n"+ result_table.find("div", {"class":"c-abstract"}).renderContents()#描述
+ print"-----鏍囬----n"+ a_click.renderContents()#鏍囬
+ print"----閾炬帴----n"+ str(a_click.get("href"))#閾炬帴
+ print"----鎻忚堪----n"+ result_table.find("div", {"class":"c-abstract"}).renderContents()#鎻忚堪
 print
