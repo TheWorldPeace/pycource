@@ -1,19 +1,25 @@
-#!/usr/bin/env python3
-
-#coding: utf-8
-import sys
-import urllib
-import urllib2
-from BeautifulSoup import BeautifulSoup
-
-question_word ="jianghp92"
-url ="http://www.baidu.com/s?wd="+ urllib.quote(question_word.decode(sys.stdin.encoding).encode('gbk'))
-htmlpage = urllib2.urlopen(url).read()
-soup = BeautifulSoup(htmlpage)
-print len(soup.findAll("table", {"class":"result"}))
-for result_table in soup.findAll("table", {"class":"result"}):
- a_click = result_table.find("a")
- print"-----标题----n"+ a_click.renderContents()#标题
- print"----链接----n"+ str(a_click.get("href"))#链接
- print"----描述----n"+ result_table.find("div", {"class":"c-abstract"}).renderContents()#描述
-print
+# -*- coding: utf-8 -*-
+import re 
+import requests  
+from pyquery import PyQuery as pq
+def getHtml(url, code="utf-8"):  
+    try:  
+        r =requests.get(url)  
+        r.raise_for_status()  
+        r.encoding = code  
+        return r.text  
+    except:  
+        return ""   
+def main():  
+    print("start")
+    baidunameurl='http://www.baidu.com/s?wd=jianghp92'  
+    doc= pq(getHtml(baidunameurl))
+    mlist = doc('#content_left h3.t a').items()
+    i=0
+    for li in mlist :
+        i=i+1
+        print('标题：'+li.text())
+        print('链接：'+li.attr('href'))
+    print(i)
+    print("end")  
+main()
